@@ -6,6 +6,10 @@ Construido en [Angular CLI](https://github.com/angular/angular-cli) version 7.0.
 
 # Instrucciones
 
+Cree una copia del proyecto escribiendo `git clone`.
+
+Ingrese al directorio donde se clonó el directorio e inicie el servidor.
+
 ## Iniciar el Servidor
 
 Ejecute el comando `ng serve` para iniciar el servidor. Con el navegador ingresar a `http://localhost:4200/`. La aplicación iniciará y estará a la espera de cambios.
