@@ -1,0 +1,118 @@
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Nombre de la Mascota</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Nombre Mascota" [(ngModel)]="mascota.nombre" name= 'nombre' formControlName="firstCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperNext color="primary" >Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fecha de Nacimiento</ng-template>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Fecha de Nacimiento" [(ngModel)]="mascota.fecha_nacimiento" name= 'fecha_nacimiento' formControlName="secondCtrl" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperNext color="primary" >Siguiente</button>
+        <button mat-raised-button matStepperPrevious >Regresar</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup">
+      <ng-template matStepLabel>Especie</ng-template>
+      <mat-form-field>
+        <mat-select placeholder="Especie" [(ngModel)]="mascota.especie" name= 'especie' formControlName="thirdCtrl" required>
+          <mat-option *ngFor="let especie of especies" [value]="especie.valor" >
+            {{especie.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperNext color="primary" >Siguiente</button>
+        <button mat-raised-button matStepperPrevious >Regresar</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fourthFormGroup">
+    <form [formGroup]="fourthFormGroup">
+      <ng-template matStepLabel>Raza</ng-template>
+      <mat-form-field>
+        <mat-select placeholder="Raza" [(ngModel)]="mascota.raza" name= 'raza' formControlName="fourthCtrl" required>
+          <ng-container *ngIf="mascota.especie == 'perro'">
+            <mat-option *ngFor="let especiePerro of especiePerroList" [value]="especiePerro.especie">
+              {{especiePerro.especie}}
+            </mat-option>
+          </ng-container>
+          <ng-container *ngIf="mascota.especie == 'gato'">
+            <mat-option *ngFor="let especieGato of especieGatoList" [value]="especieGato.especie">
+              {{especieGato.especie}}
+            </mat-option>
+          </ng-container>
+          <ng-container *ngIf="mascota.especie == 'otro'">
+            <mat-option *ngFor="let especieOtros of especieOtrosList" [value]="especieOtros.especie">
+              {{especieOtros.especie}}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperNext color="primary" >Siguiente</button>
+        <button mat-raised-button matStepperPrevious >Regresar</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fivethFormGroup">
+    <form [formGroup]="fivethFormGroup">
+      <ng-template matStepLabel>Vacunas</ng-template>
+      <mat-form-field>
+        <mat-select placeholder="Vacunas" [formControl]="vacunas" multiple [(ngModel)]="mascota.vacunas" name= 'vacunas' >
+          <mat-option *ngFor="let vacuna of vacunasList" [value]="vacuna" >{{vacuna}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperNext color="primary" (click)="agregarMascota()" >Añadir Mascota</button>
+        <button mat-raised-button matStepperPrevious >Regresar</button>
+      </div>
+    </form>
+  </mat-step>
+
+</mat-horizontal-stepper>
+
+<form class="example-form">
+</form>
+
+
+<br>
+
+<table matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 table">
+  <thead class="thead-dark">
+    <tr>
+      <th mat-sort-header="nombre">Mascota</th>
+      <th mat-sort-header="fecha_nacimiento">Fecha Nac.</th>
+      <th mat-sort-header="especie">Especie</th>
+      <th mat-sort-header="raza">Raza</th>
+      <th>Vacunas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let mascota of sortedData">
+      <td >{{mascota.nombre}}</td>
+      <td>{{mascota.fecha_nacimiento}}</td>
+      <td>{{mascota.especie}}</td>
+      <td>{{mascota.raza}}</td>
+      <td>{{mascota.vacunas}}</td>
+    </tr>
+  </tbody>
+
+</table>
